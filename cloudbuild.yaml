@@ -1,0 +1,32 @@
+# Cloud Build configuration for Google Cloud Run deployment
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/weather-by-cep:$COMMIT_SHA', '.']
+  
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/weather-by-cep:$COMMIT_SHA']
+  
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'weather-by-cep'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/weather-by-cep:$COMMIT_SHA'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'WEATHER_API_KEY=${_WEATHER_API_KEY}'
+
+images:
+  - 'gcr.io/$PROJECT_ID/weather-by-cep:$COMMIT_SHA'
+
+substitutions:
+  _WEATHER_API_KEY: ''
