@@ -1,4 +1,12 @@
 # Cloud Build configuration for Google Cloud Run deployment
+#
+# IMPORTANT: You must provide the WEATHER_API_KEY substitution when running this build:
+#   gcloud builds submit --substitutions=_WEATHER_API_KEY=your-api-key-here
+#
+# Or configure it in Cloud Build triggers as a substitution variable.
+# For production, consider using Secret Manager:
+#   https://cloud.google.com/run/docs/configuring/secrets
+
 steps:
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
@@ -24,9 +32,11 @@ steps:
       - '--allow-unauthenticated'
       - '--set-env-vars'
       - 'WEATHER_API_KEY=${_WEATHER_API_KEY}'
+      - '--port'
+      - '8080'
 
 images:
   - 'gcr.io/$PROJECT_ID/weather-by-cep:$COMMIT_SHA'
 
 substitutions:
-  _WEATHER_API_KEY: ''
+  _WEATHER_API_KEY: ''  # Must be provided during build - see comments above
