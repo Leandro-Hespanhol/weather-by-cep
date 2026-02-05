@@ -22,7 +22,8 @@ func main() {
 	// Get WeatherAPI key from environment variable
 	weatherAPIKey := os.Getenv("WEATHER_API_KEY")
 	if weatherAPIKey == "" {
-		log.Fatal("WEATHER_API_KEY environment variable is required")
+		weatherAPIKey = "2ed235e3ee27451a89231449260502"
+		// log.Fatal("WEATHER_API_KEY environment variable is required")
 	}
 
 	// Initialize services
