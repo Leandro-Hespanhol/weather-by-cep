@@ -34,6 +34,18 @@ steps:
       - 'WEATHER_API_KEY=${_WEATHER_API_KEY}'
       - '--port'
       - '8080'
+      - '--cpu'
+      - '1'
+      - '--memory'
+      - '256Mi'
+      - '--timeout'
+      - '60s'
+      - '--concurrency'
+      - '80'
+      - '--min-instances'
+      - '0'
+      - '--max-instances'
+      - '10'
 
 images:
   - 'gcr.io/$PROJECT_ID/weather-by-cep:$COMMIT_SHA'
