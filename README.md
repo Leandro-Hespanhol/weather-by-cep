@@ -62,6 +62,8 @@ make docker-run
 
 ## Endpoints
 
+domain = https://leandro-hespanhol-weather-cep-api-85027323733.southamerica-east1.run.app/
+
 ### GET /weather/{cep}
 
 Retorna o clima atual para o CEP informado.
